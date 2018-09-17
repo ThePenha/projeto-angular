@@ -1,0 +1,83 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+    <form #form="ngForm" novalidate>
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+          </h2>
+        </div>
+      </div>
+      <div class="row invoice-info">
+        <div class="col-xs-12">
+          <p class="lead">Endereço de Entrega:</p>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container errorMessage="Campo obrigatório" label="Endereço">
+            <input class="form-control" name="optionalAddress" ngModel required minlength="5" placeholder="Endereço" autocomplete="off">
+          </mt-input-container>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container label="Número" errorMessage="Campo obrigatório com números">
+            <input type="text" class="form-control" name="number" required ngModel placeholder="Número" pattern="^[0-9]*$" autocomplete="off">
+          </mt-input-container>
+        </div>
+        <div class="col-sm-3 col-xs-8">
+          <mt-input-container>
+            <input type="text" class="form-control" name="optional" ngModel placeholder="Complemento">
+          </mt-input-container>
+        </div>
+        
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="lead">Itens do Pedido:</p>
+        </div>
+      </div>
+
+      <mt-order-itens [itens]="cartItens()"
+        (increaseQty)="increaseQty($event)"
+        (decreaseQty)="decreaseQty($event)"
+        (remove)="remove($event)">
+      </mt-order-itens>
+
+      <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Formas de Pagamento:</p>
+
+          <div class="form-group">
+            <mt-radio [options]="paymentOptions" name="paymentOption" ngModel required></mt-radio>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Frete e Total:</p>
+
+          <mt-delivery-costs 
+            [delivery]="delivery"
+            [itensValue]="itensValue()"
+          ></mt-delivery-costs>
+        </div>
+        <!-- /.col -->
+      </div>
+
+    </form>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button (click)="checkOrder(form.value)" class="btn btn-success pull-right" [disabled]="!form.valid || cartItens().length === 0">
+          <i class="fa fa-credit-card"></i> Concluir
+          Pedido</button>
+      </div>
+    </div>
+
+  </section>
+</section>
+<!-- FIM DO CONTEUDO-->
